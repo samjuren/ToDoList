@@ -4,8 +4,16 @@
              x:Class="ToDoList.MainPage"
              BackgroundColor="#FEFEFE">
     <Grid>
+        <Label 
+            Text="ToDo" 
+            TextColor="Black" 
+            Margin="10" 
+            FontSize="25" 
+            HorizontalOptions="Center"
+            FontAttributes="Bold"/>
+
         <CollectionView 
-            Margin="10,0,10,0"
+            Margin="10,60,10,0"
             ItemsSource="{Binding ToDoList}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout 
@@ -68,6 +76,7 @@
             VerticalOptions="End"
             CornerRadius="30"
             Margin="0,0,30,40"
-            Text="+"/>
+            Text="+"
+            Clicked="Button_Clicked"/>
     </Grid>
 </ContentPage>
