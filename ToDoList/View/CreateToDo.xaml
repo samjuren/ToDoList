@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.View.CreateToDo"
+             Title="Criação de Tarefas">
+    <VerticalStackLayout
+        Margin="20,0,30,0"
+        VerticalOptions="Center">
+        <Label 
+            Text="Digite o titulo"/>
+        <Entry 
+            x:Name="entryTitle"/>
+
+        <Label
+            Margin="0,50,0,0" 
+            Text="Digite a descrição"/>
+        <Entry
+            x:Name="entryDescription"/>
+
+        <Button
+            Text="Salvar" 
+            Margin="0,40,0,0"/>
+    </VerticalStackLayout>
+</ContentPage>
