@@ -2,10 +2,11 @@
 
 namespace ToDoList.Model
 {
-    [Table("CREATE_LOGIN")]
+    [Table("ToDoList")]
     public class ToDoItem
     {
         [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
