@@ -1,5 +1,6 @@
 using ToDoList.DbContext;
 using ToDoList.Model;
+using ToDoList.ViewModel;
 
 namespace ToDoList.View;
 
@@ -11,15 +12,6 @@ public partial class CreateToDo : ContentPage
 	{
         _callback = callback;	
         InitializeComponent();
-	}
-
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-		ToDoItem toDoItem = new ToDoItem();
-		toDoItem.Title = entryTitle.Text;
-		toDoItem.Description = entryDescription.Text;
-		DatabaseHandler.Insert(toDoItem);
-
-        _callback?.Invoke(toDoItem);
+        BindingContext = new CreateToDoViewModel(callback);
     }
 }

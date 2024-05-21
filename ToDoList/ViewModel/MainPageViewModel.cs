@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows.Input;
 using ToDoList.DbContext;
 using ToDoList.Model;
@@ -7,9 +8,10 @@ using ToDoList.View;
 
 namespace ToDoList.ViewModel
 {
-    public class MainPageViewModel : INotifyCollectionChanged
+    public class MainPageViewModel : INotifyPropertyChanged
     {
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public ObservableCollection<ToDoItem> ToDoList { get; set; }
 
         public ICommand NavigateToAddViewCommand { get; set; }

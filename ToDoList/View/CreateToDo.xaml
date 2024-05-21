@@ -9,17 +9,17 @@
         <Label 
             Text="Digite o titulo"/>
         <Entry 
-            x:Name="entryTitle"/>
+            Text="{Binding TextTitle}"/>
 
         <Label
             Margin="0,50,0,0" 
             Text="Digite a descrição"/>
         <Entry
-            x:Name="entryDescription"/>
+            Text="{Binding TextDescription}"/>
 
         <Button
             Text="Salvar" 
             Margin="0,40,0,0"
-            Clicked="Button_Clicked"/>
+            Command="{Binding AddToDoCommand}"/>
     </VerticalStackLayout>
 </ContentPage>
