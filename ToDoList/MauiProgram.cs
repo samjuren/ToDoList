@@ -1,10 +1,22 @@
 ﻿using Microsoft.Extensions.Logging;
+using ToDoList.DbContext;
 
 namespace ToDoList
 {
     public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()
+        {
+            CreateDatabase();
+            return BuildMauiApp();
+        }
+
+        private static void CreateDatabase()
+        {
+            DatabaseHandler.Init();
+        }
+
+        private static MauiApp BuildMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
             builder
@@ -16,7 +28,7 @@ namespace ToDoList
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

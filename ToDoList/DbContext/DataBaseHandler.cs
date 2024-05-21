@@ -3,7 +3,7 @@ using ToDoList.Model;
 
 namespace ToDoList.DbContext
 {
-    public class DataBaseHandler
+    public class DatabaseHandler
     {
         public static SQLiteConnection? Connection { get; set; }
 
@@ -41,7 +41,8 @@ namespace ToDoList.DbContext
             Connection?.Update(obj);
         }
 
-        public static List<T> GetAll<T>() where T : new()
+        public static List<T> GetAll<T>()
+            where T : new()
         {
             return Connection.Table<T>().ToList();
         }
