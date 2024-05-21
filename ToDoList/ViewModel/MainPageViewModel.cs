@@ -1,70 +1,44 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Windows.Input;
+using ToDoList.DbContext;
 using ToDoList.Model;
+using ToDoList.View;
 
 namespace ToDoList.ViewModel
 {
-    public class MainPageViewModel
+    public class MainPageViewModel : INotifyCollectionChanged
     {
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public ObservableCollection<ToDoItem> ToDoList { get; set; }
+
+        public ICommand NavigateToAddViewCommand { get; set; }
+
         public MainPageViewModel()
         {
-            CriarToDo();
+            NavigateToAddViewCommand = new Command(NavigateToAddView);
+            ToDoList = new ObservableCollection<ToDoItem>();
+            LoadItems();
         }
 
-        private void CriarToDo()
+        private void LoadItems()
         {
-            ToDoList = new ObservableCollection<ToDoItem>
+            ToDoList.Clear();
+            List<ToDoItem> items = DatabaseHandler.GetAll<ToDoItem>();
+            foreach (ToDoItem item in items)
             {
-                new ToDoItem
-                {
-                    Id = 1,
-                    Title = "Teste Samuel",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-                new ToDoItem
-                {
-                    Id = 2,
-                    Title = "Teste Samuel 2",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-                new ToDoItem
-                {
-                    Id = 3,
-                    Title = "Teste Samuel 3",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-                new ToDoItem
-                {
-                    Id = 4,
-                    Title = "Teste Samuel 4",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-                new ToDoItem
-                {
-                    Id = 5,
-                    Title = "Teste Samuel 5",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-                new ToDoItem
-                {
-                    Id = 6,
-                    Title = "Teste Samuel 6",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-                new ToDoItem
-                {
-                    Id = 7,
-                    Title = "Teste Samuel 7",
-                    Description = "Ir ao mercado",
-                    Status = 1,
-                },
-            };
+                ToDoList.Add(item);
+            }
+        }
+
+        private void NavigateToAddView()
+        {
+            App.Current.MainPage.Navigation.PushAsync(new CreateToDo(Callback));
+        }
+
+        private void Callback(ToDoItem todoItem)
+        {
+            LoadItems();
         }
     }
 }

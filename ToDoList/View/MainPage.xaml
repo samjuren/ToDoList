@@ -12,7 +12,7 @@
             HorizontalOptions="Center"
             FontAttributes="Bold"/>
 
-        <CollectionView 
+        <CollectionView
             Margin="10,60,10,0"
             ItemsSource="{Binding ToDoList}">
             <CollectionView.ItemsLayout>
@@ -77,6 +77,6 @@
             CornerRadius="30"
             Margin="0,0,30,40"
             Text="+"
-            Clicked="Button_Clicked"/>
+            Command="{Binding NavigateToAddViewCommand}"/>
     </Grid>
 </ContentPage>
