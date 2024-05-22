@@ -43,5 +43,13 @@ namespace ToDoList
                 _mainPageViewModel.DeleteCommand.Execute(model);
             }
         }
+
+        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            ToDoItem model = (ToDoItem)checkBox.BindingContext;
+            model.Status = checkBox.IsChecked ? "Concluído" : "Não Concluído";
+            _mainPageViewModel.UpdateCommand.Execute(model);
+        }
     }
 }

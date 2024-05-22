@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ToDoList.DbContext;
@@ -22,14 +23,22 @@ namespace ToDoList.ViewModel
         public ObservableCollection<ToDoItem> ToDoList { get; set; }
         public ICommand NavigateToAddViewCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand UpdateCommand { get; set; }
         public Color ColorSwitch { get; set; }
 
         public MainPageViewModel()
         {
             NavigateToAddViewCommand = new Command(NavigateToAddView);
             DeleteCommand = new Command(DeleteItem);
+            UpdateCommand = new Command(Update);
             ToDoList = new ObservableCollection<ToDoItem>();
             LoadItems();
+        }
+
+        private void Update(object item)
+        {
+            ToDoItem toDoItem = (ToDoItem)item;
+            DatabaseHandler.Update(toDoItem);
         }
 
         private async void DeleteItem(object toDoItem)

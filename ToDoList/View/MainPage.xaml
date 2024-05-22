@@ -48,8 +48,9 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5,5,5,5" />
                             </Border.StrokeShape>
-                            <VerticalStackLayout
-                                Spacing="10">
+                            <Grid
+                                RowDefinitions="Auto, Auto, *"
+                                RowSpacing="10">
                                 <Grid
                                     HorizontalOptions="FillAndExpand">
                                     <Label
@@ -68,27 +69,33 @@
                                         Source="icon_options30.png"
                                         Clicked="ImageButton_Clicked"/>
                                 </Grid>
-                                <Label 
-                                    Grid.Column="2"
+                                <StackLayout
                                     Grid.Row="1"
-                                    FontSize="14"
-                                    TextColor="Gray"             
-                                    Text="{Binding Description}"/>
+                                    VerticalOptions="Center">
+                                    <Label 
+                                        FontSize="14"
+                                        TextColor="Gray"             
+                                        Text="{Binding Description}"/>
+                                </StackLayout>
                                 <HorizontalStackLayout
+                                    Grid.Row="2"
+                                    VerticalOptions="End"
                                     HorizontalOptions="End">
-                                    <Image
+                                    <CheckBox
                                         Margin="0,0,5,0"
                                         HeightRequest="13"
                                         WidthRequest="13"
-                                        Source="{Binding IsConcluded, Mode=TwoWay, Converter={StaticResource boolToImageSource}}"/>
+                                        BackgroundColor="{Binding IsConcluded, Mode=TwoWay, Converter={StaticResource boolToColorConverter}}"
+                                        Color="White"
+                                        IsChecked="{Binding IsConcluded, Mode=TwoWay}"
+                                        CheckedChanged="CheckBox_CheckedChanged"/>
                                     <Label 
                                          FontAttributes="Bold"
                                          FontSize="13"
                                          TextColor="{Binding IsConcluded, Mode=TwoWay, Converter={StaticResource boolToColorConverter}}"
                                          Text="{Binding Status}"/>
                                 </HorizontalStackLayout>
-                               
-                            </VerticalStackLayout>
+                            </Grid>
                         </Border>
 
                     </Grid>
