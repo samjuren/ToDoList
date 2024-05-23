@@ -31,7 +31,7 @@ namespace ToDoList.Components
         {
             Label = new Label();
             Label.SetBinding(Label.TextColorProperty, "IsConcluded", BindingMode.TwoWay, converter: new BoolToColorConverter());
-
+            
             Switch = new Switch();
 
             Add(Switch);
@@ -41,6 +41,8 @@ namespace ToDoList.Components
 
             Label.Text = "Não concluido";
             Label.TextColor = Colors.Red;
+            
+            Label.Margin = new Thickness(10,14,0,0);
         }
 
         private void Switch_Toggled(object? sender, ToggledEventArgs e)
