@@ -4,20 +4,28 @@
              x:Class="ToDoList.MainPage"
              xmlns:local="clr-namespace:ToDoList.Converter"
              BackgroundColor="#FEFEFE">
-    
+
     <ContentPage.Resources>
         <local:BoolToColorConverter x:Key="boolToColorConverter" />
         <local:BoolToImageSource x:Key="boolToImageSource" />
     </ContentPage.Resources>
-    
+
+
     <Grid>
         <Label 
-            Text="ToDo" 
+            Text="To Do List" 
             TextColor="Black" 
             Margin="10" 
-            FontSize="25" 
-            HorizontalOptions="Center"
+            FontSize="30" 
+            HorizontalOptions="Start"
             FontAttributes="Bold"/>
+
+        <Label
+            Text="{Binding labelColletionEmpty}" 
+            TextColor="Black" 
+            FontSize="13" 
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="Center"/>
 
         <CollectionView
             Margin="10,60,10,0"
@@ -102,19 +110,16 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button 
+
+        <ImageButton
+            BackgroundColor="#7175ed"
+            WidthRequest="60"
+            HeightRequest="60"
+            Source="icon_plus.png"
             HorizontalOptions="End"
             VerticalOptions="End"
             CornerRadius="30"
             Margin="0,0,30,40"
-            Text="+"
             Command="{Binding NavigateToAddViewCommand}"/>
-
-        <ActivityIndicator
-            x:Name="actIndicator"
-            IsVisible="True"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Scale="3"/>
     </Grid>
 </ContentPage>

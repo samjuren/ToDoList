@@ -1,4 +1,5 @@
 ﻿using ToDoList.DbContext;
+using ToDoList.Helpers;
 using ToDoList.Model;
 using ToDoList.View;
 using ToDoList.ViewModel;
@@ -26,7 +27,7 @@ namespace ToDoList
             switch (option)
             {
                 case "Editar":
-                    await Navigation.PushModalAsync(new CreateToDo(model));
+                    await NavigationHelper.PushModalAsync(new CreateEditToDoView(model));
                     break;
                 case "Deletar":
                     await DeleteItem(model);
@@ -36,7 +37,7 @@ namespace ToDoList
 
         private async Task DeleteItem(ToDoItem model)
         {
-            bool resp = await DisplayAlert("Atencao", "Deseja deletar esse item?", "Sim", "Não");
+            bool resp = await DisplayAlert("Atenção", "Deseja deletar esse item?", "Sim", "Não");
 
             if (resp)
             {
