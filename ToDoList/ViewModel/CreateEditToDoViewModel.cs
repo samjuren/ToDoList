@@ -9,7 +9,7 @@ using ToDoList.Model;
 
 namespace ToDoList.ViewModel
 {
-    public class CreateToDoViewModel : INotifyPropertyChanged
+    public class CreateEditToDoViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "")
@@ -21,6 +21,7 @@ namespace ToDoList.ViewModel
         private string _textTitle { get; set; }
         private string _textDescription { get; set; }
         private bool _isConcluded { get; set; }
+        private string _lblTitleScreen { get; set; }
 
         public string TextTitle
         {
@@ -60,21 +61,53 @@ namespace ToDoList.ViewModel
             }
         }
 
-        public ICommand AddToDoCommand { get; set; }
-        public ICommand PutToDoCommand { get; set; }
-
-
-        public CreateToDoViewModel(Action<ToDoItem> callback)
+        public string LblTitleScreen
         {
-            AddToDoCommand = new Command(() => AddToDo(callback));
+            get => _lblTitleScreen;
+            set
+            {
+                if (_lblTitleScreen != value)
+                {
+                    _lblTitleScreen = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
-        public async void AddToDo(Action<ToDoItem> callback)
+        public ICommand AddToDoCommandItem { get; set; }
+
+        public CreateEditToDoViewModel(Action<ToDoItem> callback)
+        {
+            AddToDoCommandItem = new Command(() => AddToDo(callback));
+        }
+
+        public void AddToDo(Action<ToDoItem> callback)
+        {
+            CreateOrUpdateItem(callback);
+        }
+
+        public async void CreateOrUpdateItem(Action<ToDoItem> callback)
         {
             try
             {
-                AddToItem(callback);
-                await NavigationHelper.PopModalAsync();
+                if (!string.IsNullOrWhiteSpace(TextTitle) &&
+                    !string.IsNullOrWhiteSpace(TextDescription))
+                {
+                    if (EditToDoItem != null)
+                    {
+                        await UpdateTodoItem();
+                        return;
+                    }
+
+
+                    InsertTodoItem(callback);
+                    await NavigationHelper.DisplayAlert("Tarefa cadastrada");
+                    await NavigationHelper.PopModalAsync();
+                    return;
+                }
+
+                await NavigationHelper.DisplayAlert("Favor preencher os campos acima");
+
             }
             catch (Exception ex)
             {
@@ -83,19 +116,8 @@ namespace ToDoList.ViewModel
             }
         }
 
-        public async void AddToItem(Action<ToDoItem> callback)
+        private void InsertTodoItem(Action<ToDoItem> callback)
         {
-            if (EditToDoItem != null)
-            {
-                EditToDoItem.Title = TextTitle;
-                EditToDoItem.Description = TextDescription;
-                EditToDoItem.IsConcluded = IsConcluded;
-                EditToDoItem.Status = IsConcluded ? "Concluído" : "Não Concluído";
-                DatabaseHandler.Update(EditToDoItem);
-                await NavigationHelper.DisplayAlert("Tarefa Atualizada");
-                return;
-            }
-
             ToDoItem toDoItem = new()
             {
                 Title = TextTitle,
@@ -106,8 +128,20 @@ namespace ToDoList.ViewModel
 
             DatabaseHandler.Insert(toDoItem);
             callback?.Invoke(toDoItem);
-            await NavigationHelper.DisplayAlert("Tarefa cadastrada");
+
         }
+
+        private async Task UpdateTodoItem()
+        {
+            EditToDoItem.Title = TextTitle;
+            EditToDoItem.Description = TextDescription;
+            EditToDoItem.IsConcluded = IsConcluded;
+            EditToDoItem.Status = IsConcluded ? "Concluído" : "Não Concluído";
+
+            DatabaseHandler.Update(EditToDoItem);
+            await NavigationHelper.PopModalAsync();
+        }
+
         public void InitEntryValues(ToDoItem toDoItem)
         {
             EditToDoItem = toDoItem;

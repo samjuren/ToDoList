@@ -26,6 +26,17 @@ namespace ToDoList.ViewModel
         public ICommand UpdateCommand { get; set; }
         public Color ColorSwitch { get; set; }
 
+        private string _labelColletionEmpty {  get; set; }
+        public string labelColletionEmpty 
+        {
+            get =>  _labelColletionEmpty;
+            set
+            {
+                _labelColletionEmpty = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainPageViewModel()
         {
             NavigateToAddViewCommand = new Command(NavigateToAddView);
@@ -43,11 +54,12 @@ namespace ToDoList.ViewModel
 
         private async void DeleteItem(object toDoItem)
         {
-
             ToDoItem item = (ToDoItem)toDoItem;
             ToDoList.Remove(item);
             DatabaseHandler.Delete(toDoItem);
 
+            if (ToDoList.Count == 0)
+                labelColletionEmpty = "Lista vazia";
         }
 
         private void LoadItems()
@@ -56,20 +68,24 @@ namespace ToDoList.ViewModel
 
             List<ToDoItem> items = DatabaseHandler.GetAll<ToDoItem>();
 
+            if (items.Count == 0)
+                labelColletionEmpty = "Lista vazia";
+
             foreach (ToDoItem item in items)
             {
                 ToDoList.Add(item);
             }
         }
 
-        private void NavigateToAddView()
+        private async void NavigateToAddView()
         {
-            App.Current.MainPage.Navigation.PushAsync(new CreateToDo(Callback));
+            await NavigationHelper.PushModalAsync(new CreateEditToDoView(Callback));
         }
 
         private void Callback(ToDoItem todoItem)
         {
             ToDoList.Add(todoItem);
+            labelColletionEmpty = string.Empty;
         }
     }
 }
