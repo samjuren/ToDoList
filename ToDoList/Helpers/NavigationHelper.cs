@@ -7,7 +7,7 @@
             return await Application
                 .Current?
                 .MainPage?
-                .DisplayAlert("Atençao", message, "Ok", "Cancelar");
+                .DisplayAlert("Atenção", message, "Ok", "Cancelar");
         }
 
         public static async Task DisplayAlert(string message)
@@ -15,16 +15,16 @@
             await Application
                 .Current?
                 .MainPage?
-                .DisplayAlert("Atençao", message, "Ok");
+                .DisplayAlert("Atenção", message, "Ok");
         }
 
-        public static async Task PushAsync(Page page)
+        public static async Task PushModalAsync(Page page)
         {
             await Application
                 .Current?
                 .MainPage?
                 .Navigation?
-                .PushAsync(page);
+                .PushModalAsync(page);
         }
 
         public static async Task PopAsync()
